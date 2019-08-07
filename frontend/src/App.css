@@ -1,0 +1,7 @@
+@import '~antd/dist/antd.css';
+
+.card {
+    flex:1;
+    margin:1rem;
+}
+
