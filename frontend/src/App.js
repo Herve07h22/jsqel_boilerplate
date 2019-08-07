@@ -1,5 +1,5 @@
 import React from 'react'
-import {useJsqel, setToken} from './jsqel'
+import {useJsqel, setToken} from './api/jsqel'
 import { withStore, useStore } from './store'
 import {Input, Card, Layout, Spin, Button, Table, Popconfirm} from 'antd'
 import './App.css'
@@ -25,7 +25,7 @@ const PrivateHello = () => {
   const {state} = useStore()
   console.log(" PrivateHello state :", state)
   const { Search } = Input
-  const [{results, error, loading}, refresh] = useJsqel('http://localhost:5000/', 'private_hello', { sendItNow:false, filter : '' })
+  const [{results, error, loading}, refresh] = useJsqel('http://localhost:5000/test/', 'private_hello', { sendItNow:false, filter : '' })
   return (
     <Card title="Private Hello API" className="card">
       <Search placeholder='Your filter here' onSearch={filter => refresh({filter})} enterButton />
@@ -37,8 +37,8 @@ const PrivateHello = () => {
 }
 
 const Hello = () => {
-  const [users, refresh]    = useJsqel('http://localhost:5000/', 'hello', { sendItNow:true})
-  const [deletedUser, deleteUser] = useJsqel('http://localhost:5000/', 'delete_user', { sendItNow:false, callback: () => refresh() })
+  const [users, refresh]    = useJsqel('http://localhost:5000/test/', 'hello', { sendItNow:true})
+  const [deletedUser, deleteUser] = useJsqel('http://localhost:5000/auth/', 'delete_user', { sendItNow:false, callback: () => refresh() })
 
   const columns = [
     {

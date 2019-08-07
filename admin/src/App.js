@@ -46,7 +46,7 @@ const HelloCreate = props => (
 function App() {
   return (
     <div className="App">
-      <Admin authProvider={authProvider('http://localhost:5000/login')} dataProvider={jsqelProvider('http://localhost:5000', httpClient)}>
+      <Admin authProvider={authProvider('http://localhost:5000/auth/login')} dataProvider={jsqelProvider('http://localhost:5000/admin', httpClient)}>
         <Resource name="hello" list={HelloList} edit={EditGuesser} show={ShowGuesser} create={HelloCreate} />
         <Resource name="users" list={UserList} edit={EditGuesser} show={ShowGuesser} />
         <Resource name="roles" list={ListGuesser} edit={EditGuesser} show={ShowGuesser} />

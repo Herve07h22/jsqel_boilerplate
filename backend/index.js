@@ -1,6 +1,6 @@
 // The major difference between require and import, is that require will automatically scan node_modules to find modules, but import, which comes from ES6, won't.
 // const jsqel = require('jsquel/backend')
-const jsqel = require('../../backend')
+const jsqel = require('jsqel')
 
 const dbUri = process.env.NODE_ENV === 'production' ? 'postgresql://user:pwd@postgresql.host.com:5432/db_name' : 'postgresql://postgres:docker@localhost:5432/postgres'
 
@@ -14,8 +14,8 @@ const app = jsqel(  dbUri ,
 
 
 // Use built-in modules
-const auth = require('../../backend/modules/auth')
-const ra = require('../../backend/modules/admin')
+const auth = require('jsqel/modules/auth')
+const ra = require('jsqel/modules/admin')
 
 // One endpoint = One parametrized query
 const hello = {
@@ -39,14 +39,14 @@ const private_hello = {
 }
 
 // Register a list of endpoints
-app.register([hello, private_hello])
+app.register("test", [hello, private_hello])
 
 // SQL Queries executed each time the server is restarted
 const migrationBatch = async () => {
     
     // Migrate & register built-in modules
-    console.log(await app.migrateAndRegister(auth))
-    console.log(await app.migrateAndRegister(ra))
+    console.log(await app.migrateAndRegister("auth", auth))
+    console.log(await app.migrateAndRegister("admin", ra))
 
     // Migrate user-defined modules
     console.log(await app.migrate('sql/hello_schema.sql'))
