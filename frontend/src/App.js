@@ -1,11 +1,12 @@
 import React from 'react'
 import {useJsqel, setToken} from './api/jsqel'
 import { withStore, useStore } from './store'
-import {Input, Card, Layout, Spin, Button, Table, Popconfirm} from 'antd'
+import {Input, Card, Layout, Spin, Button, Table, Popconfirm, Row, Col} from 'antd'
 import './App.css'
 
 import WrappedUserLoginForm from './components/WrappedUserLoginForm'
 import WrappedUserSigninForm from './components/WrappedUserSigninForm'
+import Upload from './components/Upload'
 
 const reducer = (state, action) => {
   console.log("reducer:", action)
@@ -64,7 +65,7 @@ const Hello = () => {
 
   return (
     <Card title="List of users" className="card" actions={[<Button onClick={e => refresh()} >Refresh</Button>]}  >
-      { users.error && <p>Error : {users.error}</p> }
+      { users.error && <p>Error : {users.error.message}</p> }
       { deletedUser.error && <p>Error : {deletedUser.error}</p> }
       <Table loading={users.loading || deletedUser.loading} dataSource={users.results} columns={columns} /> 
     </Card>
@@ -79,11 +80,14 @@ const App = () => {
     
       <Layout style={{ minHeight: '100vh'}}>
         <Header style={{ color: 'white'}} >Jsqel demo</Header>
-        <Content style={{ display: 'flex', flexWrap: 'wrap', padding:'1rem', }} >
-          <WrappedUserLoginForm />
-          <WrappedUserSigninForm />
-          <Hello />
-          <PrivateHello />
+        <Content style={{ padding:'1rem', }} >
+          <Row gutter={16}>
+            <Col xs={24} md={12} xl={8}> <WrappedUserLoginForm /> </Col>
+            <Col xs={24} md={12} xl={8}> <WrappedUserSigninForm /> </Col>
+            <Col xs={24} md={12} xl={8}> <Hello /> </Col>
+            <Col xs={24} md={12} xl={8}> <PrivateHello /> </Col>
+            <Col xs={24} md={12} xl={8}> <Upload /> </Col>
+          </Row>
         </Content>
         <Footer style={{ textAlign: 'center'}}>Jsqel react demo - <a href="https://camilab.co">Camilab 2019</a> </Footer>
       </Layout>

@@ -16,6 +16,7 @@ const app = jsqel(  dbUri ,
 // Use built-in modules
 const auth = require('jsqel/modules/auth')
 const ra = require('jsqel/modules/admin')
+const upload = require('jsqel/modules/upload')
 
 // One endpoint = One parametrized query
 const hello = {
@@ -47,6 +48,7 @@ const migrationBatch = async () => {
     // Migrate & register built-in modules
     console.log(await app.migrateAndRegister("auth", auth))
     console.log(await app.migrateAndRegister("admin", ra))
+    console.log(await app.migrateAndRegister("direct", upload))
 
     // Migrate user-defined modules
     console.log(await app.migrate('sql/hello_schema.sql'))

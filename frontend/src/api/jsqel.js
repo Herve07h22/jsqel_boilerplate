@@ -10,7 +10,12 @@ import axios from 'axios'
 // clear : set results to null
 
 const setToken = (token) => {
+  console.log('Setting token :', token)
   window.localStorage.setItem('jsqel_token', token)
+}
+
+const removeToken = () => {
+  if (window.localStorage.getItem('jsqel_token')) window.localStorage.removeItem("jsqel_token");
 }
 
 const jsqelReducer = (state, action) => {
@@ -20,6 +25,8 @@ const jsqelReducer = (state, action) => {
       case 'FETCH_SUCCESS':
         return { ...state, loading: false, error: null, results: action.payload, };
       case 'FETCH_FAILURE':
+        console.log("Error payload : ", action.payload.response)
+        if (action.payload.response && action.payload.response.status===401) removeToken()
         return { ...state, loading: false, error: action.payload };
       case 'CLEAR' :
           return { ...state, loading: false, error: null, results: null };
@@ -43,13 +50,14 @@ const useJsqel = (url, query, props = {}, initialResults=[]) => {
             try {
                 // Add token if any
                 const token = window.localStorage.getItem('jsqel_token') 
-                const result = await axios.post(url+apiParameters.query, apiParameters.props,  token ? { headers: { Authorization: `Bearer ${token}` } } : {} ) 
+                const result = await axios.post(url+apiParameters.query, apiParameters.props,  token ? { headers: { Authorization: `Bearer ${token}` } } : {} )
                 console.log('Result :', result)
                 dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
-                if ( apiParameters.props && apiParameters.props.callback) apiParameters.props.callback();
+                if ( apiParameters.props && apiParameters.props.callback) apiParameters.props.callback({error:null, results: result.data } );
             } catch (error) {
               console.log('error :', error)
-              dispatch({ type: 'FETCH_FAILURE', payload: error.message || JSON.stringify(error) })
+              dispatch({ type: 'FETCH_FAILURE', payload: error })
+              if ( apiParameters.props && apiParameters.props.callback) apiParameters.props.callback({error:error, results: null });
             }
         }
         // if props contains sendItNow:true
