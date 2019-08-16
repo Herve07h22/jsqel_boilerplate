@@ -3,7 +3,7 @@ import {useJsqel} from '../api/jsqel'
 import {Input, Card, Spin, Form, Button, Icon, Select} from 'antd'
 
 const UserSigninForm = ( {form} ) => {
-    const [{results, error, loading}, refresh] = useJsqel('http://localhost:5000/auth/', 'signin', { sendItNow:false, username : '', password:''})
+    const [{results, error, loading}, refresh] = useJsqel('auth/signin', { sendItNow:false, username : '', password:''})
     const handleSubmit = e => {
       e.preventDefault()
       form.validateFields( (err, values) => err ? console.log('Error during field validation') : refresh(values) )

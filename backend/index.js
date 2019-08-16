@@ -2,16 +2,17 @@
 // const jsqel = require('jsquel/backend')
 const jsqel = require('jsqel')
 
-const dbUri = process.env.NODE_ENV === 'production' ? 'postgresql://user:pwd@postgresql.host.com:5432/db_name' : 'postgresql://postgres:docker@localhost:5432/postgres'
+const dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URI : 'postgresql://postgres:docker@localhost:5432/postgres'
 
-const app = jsqel(  dbUri ,
-                    secret ='anysecretkeyyouwant',
-                    debug  = process.env.NODE_ENV !== 'production',
-                    staticPath = '../frontend/build',
-)
+const app = jsqel({  dbUri ,
+                    secret  : 'anysecretkeyyouwant',
+                    debug  : process.env.NODE_ENV !== 'production',
+                    apiUrlBase : process.env.NODE_ENV === 'production' ? '/api' : '',
+                })
 
-
-
+console.log("Running mode is :", process.env.NODE_ENV)
+console.log("Database URI is :", dbUri)
+console.log("Database URI received from env is :", process.env.DATABASE_URI)
 
 // Use built-in modules
 const auth = require('jsqel/modules/auth')

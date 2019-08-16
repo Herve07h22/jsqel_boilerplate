@@ -26,11 +26,11 @@ const PrivateHello = () => {
   const {state} = useStore()
   console.log(" PrivateHello state :", state)
   const { Search } = Input
-  const [{results, error, loading}, refresh] = useJsqel('http://localhost:5000/test/', 'private_hello', { sendItNow:false, filter : '' })
+  const [{results, error, loading}, refresh] = useJsqel('test/private_hello', { sendItNow:false, filter : '' })
   return (
     <Card title="Private Hello API" className="card">
       <Search placeholder='Your filter here' onSearch={filter => refresh({filter})} enterButton />
-      { error && <p>Error : {error}</p> }
+      { error && <p>Error : {error.message}</p> }
       { loading ? <Spin /> : results.map( row => <p key={row.id} >{row.message}</p>)  }
       { state && state.username ? <p>{state.username} is logged : the query can be run</p> : <p>This query cannot be run</p>}
     </Card>
@@ -38,8 +38,8 @@ const PrivateHello = () => {
 }
 
 const Hello = () => {
-  const [users, refresh]    = useJsqel('http://localhost:5000/test/', 'hello', { sendItNow:true})
-  const [deletedUser, deleteUser] = useJsqel('http://localhost:5000/auth/', 'delete_user', { sendItNow:false, callback: () => refresh() })
+  const [users, refresh]    = useJsqel('test/hello', { sendItNow:true})
+  const [deletedUser, deleteUser] = useJsqel('auth/delete_user', { sendItNow:false, callback: () => refresh() })
 
   const columns = [
     {
@@ -66,7 +66,7 @@ const Hello = () => {
   return (
     <Card title="List of users" className="card" actions={[<Button onClick={e => refresh()} >Refresh</Button>]}  >
       { users.error && <p>Error : {users.error.message}</p> }
-      { deletedUser.error && <p>Error : {deletedUser.error}</p> }
+      { deletedUser.error && <p>Error : {deletedUser.error.message}</p> }
       <Table loading={users.loading || deletedUser.loading} dataSource={users.results} columns={columns} /> 
     </Card>
   )

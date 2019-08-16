@@ -43,10 +43,13 @@ const HelloCreate = props => (
   </Create>
 )
 
+const api_url = process.env.NODE_ENV === 'production' ? 'http://localhost/api/' : 'http://localhost:5000/'
+console.log("Using API url :", api_url)
+
 function App() {
   return (
     <div className="App">
-      <Admin authProvider={authProvider('http://localhost:5000/auth/login')} dataProvider={jsqelProvider('http://localhost:5000/admin', httpClient)}>
+      <Admin authProvider={authProvider(api_url+'auth/login')} dataProvider={jsqelProvider(api_url+'admin', httpClient)}>
         <Resource name="hello" list={HelloList} edit={EditGuesser} show={ShowGuesser} create={HelloCreate} />
         <Resource name="users" list={UserList} edit={EditGuesser} show={ShowGuesser} />
         <Resource name="roles" list={ListGuesser} edit={EditGuesser} show={ShowGuesser} />

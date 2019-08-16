@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  jsqel_nodejs:
+    build: ./backend
+    command: node index.js
+    volumes:
+      - uploads:/uploads
+    # Expose ports without publishing them to the host machine - they’ll only be accessible to linked services. 
+    expose:
+      - 5000
+    # If you want tu run only the backend (+db), you have to publish the external port :
+    #ports:
+    #  - 5000:5000
+    environment:
+      - DATABASE_URI=postgresql://postgres:docker@db:5432/postgres
+      - NODE_ENV=production
+      - PORT=5000
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  
+  jsqel_nginx:
+    build: .
+    volumes:
+      - uploads:/usr/src/uploads
+    ports:
+      - 80:80
+    depends_on:
+      - jsqel_nodejs
+
+volumes:
+  postgres_data:
+  uploads:
+  

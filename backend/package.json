@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "jsqel": "../../jsqel"
+    "jsqel": "git+https://github.com/Herve07h22/jsqel.git"
   }
 }

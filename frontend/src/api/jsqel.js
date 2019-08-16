@@ -2,12 +2,15 @@ import { useEffect, useState, useReducer } from 'react'
 import axios from 'axios'
 
 // React hook to use a query
-// const [{results, error, loading}, refresh, clear] = useJsqel('http://localhost:5000', 'private_hello', { sendItNow:true, filter : filter })
+// const [{results, error, loading}, refresh, clear] = useJsqel('private_hello', { sendItNow:true, filter : filter })
 // refresh can be used like this :
 // refresh()                    -> send the query with the same parameters
 // refresh( {filter:'F%'} )     -> send the query with updated parameters
 // refresh({ sendItNow:true, filter : filter }) --> send the query if sendItNow was initially false
 // clear : set results to null
+
+const api_url = process.env.NODE_ENV === 'production' ? 'http://localhost/api/' : 'http://localhost:5000/'
+console.log("Using API url :", api_url)
 
 const setToken = (token) => {
   console.log('Setting token :', token)
@@ -35,7 +38,7 @@ const jsqelReducer = (state, action) => {
     }
   }
   
-const useJsqel = (url, query, props = {}, initialResults=[]) => {
+const useJsqel = (query, props = {}, initialResults=[]) => {
     const [apiParameters, setApiParameters] = useState( { query, props });
 
     const [state, dispatch] = useReducer(jsqelReducer, {
@@ -50,7 +53,7 @@ const useJsqel = (url, query, props = {}, initialResults=[]) => {
             try {
                 // Add token if any
                 const token = window.localStorage.getItem('jsqel_token') 
-                const result = await axios.post(url+apiParameters.query, apiParameters.props,  token ? { headers: { Authorization: `Bearer ${token}` } } : {} )
+                const result = await axios.post(api_url+apiParameters.query, apiParameters.props,  token ? { headers: { Authorization: `Bearer ${token}` } } : {} )
                 console.log('Result :', result)
                 dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
                 if ( apiParameters.props && apiParameters.props.callback) apiParameters.props.callback({error:null, results: result.data } );
@@ -63,7 +66,7 @@ const useJsqel = (url, query, props = {}, initialResults=[]) => {
         // if props contains sendItNow:true
         console.log("useEffect:", apiParameters)
         if ( apiParameters.props && apiParameters.props.sendItNow) fetchData();
-    }, [apiParameters, url]);
+    }, [apiParameters]);
 
     const refresh = (newParams={}) => setApiParameters( {query:query, props:Object.assign( {}, apiParameters.props, newParams, {sendItNow:true} )} )
 

@@ -5,7 +5,7 @@ import {Input, Card, Spin, Form, Button, Icon} from 'antd'
 
 const UserLoginForm = ( {form} ) => {
     const {dispatch, state} = useStore()
-    const [{results, error, loading}, refresh, clear] = useJsqel('http://localhost:5000/auth/', 'login', { sendItNow:false, username : '', password:''})
+    const [{results, error, loading}, refresh, clear] = useJsqel('auth/login', { sendItNow:false, username : '', password:''})
     
     const handleLogin = e => {
       e.preventDefault()
