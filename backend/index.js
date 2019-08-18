@@ -29,12 +29,12 @@ const hello = {
  
 const private_hello = {
     name : 'private_hello',
-    sql : "SELECT * FROM Hello where (user_id=${user_id} or ${role}='Admin') and message like ${filter}", // Auto inject user_id and role
+    sql : "SELECT * FROM Hello where message like ${filter}", // Auto inject user_id and role
     restricted : ['Member', 'Admin'], // private query, request need authentication bearer
     params : {
         filter  : value => ({success: true, value }) ,
-        user_id : value => ({success: true, value }) ,  // Injected paramter for an authenticated query (which does not contains 'Public' in restricted)
-        role    : value => ({success: true, value }) ,  // Injected paramter for an authenticated query (which does not contains 'Public' in restricted)
+        user_id : value => ({success: true, value }) ,  // Injected parameter for an authenticated query (which does not contains 'Public' in restricted)
+        role    : value => ({success: true, value }) ,  // Injected parameter for an authenticated query (which does not contains 'Public' in restricted)
     },
     beforeQuery : (query, params) => { console.log('Filter : ', params.filter); return params; },
     afterQuery  : (query, params, results) => { console.log("Got the result !"); return results; }, 
@@ -47,13 +47,13 @@ app.register("test", [hello, private_hello])
 const migrationBatch = async () => {
     
     // Migrate & register built-in modules
-    console.log(await app.migrateAndRegister("auth", auth))
-    console.log(await app.migrateAndRegister("admin", ra))
-    console.log(await app.migrateAndRegister("direct", upload))
+    await app.migrateAndRegister("auth", auth)
+    await app.migrateAndRegister("admin", ra)
+    await app.migrateAndRegister("direct", upload)
 
     // Migrate user-defined modules
-    console.log(await app.migrate('sql/hello_schema.sql'))
-    console.log(await app.migrate('sql/hello_seeds.sql'))
+    await app.migrate('sql/hello_schema.sql')
+    await app.migrate('sql/hello_seeds.sql')
 }
 // Launch migrations, then launch server 
 migrationBatch()

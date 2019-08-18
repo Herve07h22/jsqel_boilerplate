@@ -609,9 +609,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-"jsqel@git+https://github.com/Herve07h22/jsqel.git":
-  version "1.0.4"
-  resolved "git+https://github.com/Herve07h22/jsqel.git#4f6b90b345f668407cecb55fb0666bcb21a435fa"
+jsqel@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/jsqel/-/jsqel-1.0.5.tgz#9f55aa078bf453b19624270d444e0f85191e762b"
+  integrity sha512-3PIfI4YqQ6bDqG2u9wuc3We9UbBZzlJ3raZkWx3gbxVlG9ckUgK3bU1YrUKyP1Gy4r2KIWfWu46wPb9fZSE2vw==
   dependencies:
     body-parser "^1.19.0"
     cors "^2.8.5"
@@ -1153,9 +1154,9 @@ split@^1.0.0:
     through "2"
 
 sqlite3@^4.0.9:
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-4.0.9.tgz#cff74550fa5a1159956815400bdef69245557640"
-  integrity sha512-IkvzjmsWQl9BuBiM4xKpl5X8WCR4w0AeJHRdobCdXZ8dT/lNc1XS6WqvY35N6+YzIIgzSBeY5prdFObID9F9tA==
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/sqlite3/-/sqlite3-4.1.0.tgz#e051fb9c133be15726322a69e2e37ec560368380"
+  integrity sha512-RvqoKxq+8pDHsJo7aXxsFR18i+dU2Wp5o12qAJOV5LNcDt+fgJsc2QKKg3sIRfXrN9ZjzY1T7SNe/DFVqAXjaw==
   dependencies:
     nan "^2.12.1"
     node-pre-gyp "^0.11.0"

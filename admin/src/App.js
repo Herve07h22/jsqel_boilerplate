@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetchUtils, Admin, Resource, ListGuesser, EditGuesser, ShowGuesser, List, Datagrid, TextField, ReferenceField, Create, SimpleForm, TextInput, ReferenceInput, SelectInput } from 'react-admin';
+import { fetchUtils, Admin, Resource, ListGuesser, EditGuesser, ShowGuesser, List, Datagrid, TextField, ReferenceField, Create, SimpleForm, TextInput} from 'react-admin';
 import jsqelProvider from './provider/jsqelProvider'
 import authProvider from './provider/authProvider';
 
@@ -27,7 +27,6 @@ const HelloList = props => (
       <Datagrid rowClick="edit">
           <TextField source="id" />
           <TextField source="message" />
-          <ReferenceField source="user_id" reference="users"><TextField source="username" /></ReferenceField>
       </Datagrid>
   </List>
 )
@@ -36,9 +35,6 @@ const HelloCreate = props => (
   <Create {...props}>
       <SimpleForm>
           <TextInput source="message" />
-          <ReferenceInput label="User" source="user_id" reference="users">
-              <SelectInput optionText="username" />
-          </ReferenceInput>
       </SimpleForm>
   </Create>
 )

@@ -55,7 +55,7 @@ const UserSigninForm = ( {form} ) => {
             </Button>
   
         </Form>
-        { error && <p>Error : {error}</p> }
+        { error && <p>Error : {error.message}</p> }
         { loading ? <Spin /> : results.map( row => <p>row.message</p>)  }
   
       </Card>

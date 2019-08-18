@@ -29,7 +29,7 @@ const PrivateHello = () => {
   const [{results, error, loading}, refresh] = useJsqel('test/private_hello', { sendItNow:false, filter : '' })
   return (
     <Card title="Private Hello API" className="card">
-      <Search placeholder='Your filter here' onSearch={filter => refresh({filter})} enterButton />
+      <Search placeholder='Your filter here. Ex : H%' onSearch={filter => refresh({filter})} enterButton />
       { error && <p>Error : {error.message}</p> }
       { loading ? <Spin /> : results.map( row => <p key={row.id} >{row.message}</p>)  }
       { state && state.username ? <p>{state.username} is logged : the query can be run</p> : <p>This query cannot be run</p>}

@@ -53,7 +53,7 @@ const UserLoginForm = ( {form} ) => {
             </Button>
   
         </Form>
-        { error && <p>Error : {error}</p> }
+        { error && <p>Error : {error.message}</p> }
         { loading ? <Spin /> : results && results.token && <Button onClick={handleLogout} >Log out</Button>  }
   
       </Card>
