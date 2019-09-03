@@ -609,8 +609,9 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-"jsqel@file:../../jsqel":
+"jsqel@git+https://github.com/Herve07h22/jsqel.git":
   version "1.0.6"
+  resolved "git+https://github.com/Herve07h22/jsqel.git#6012c0e9c079863c89328edf4be287f659a0991c"
   dependencies:
     body-parser "^1.19.0"
     cors "^2.8.5"
