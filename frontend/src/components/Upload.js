@@ -18,7 +18,7 @@ const UploadForm = ({form}) => {
     const handleLogin = values => console.log("Form values : ", values)
 
     return (
-        <Card title="Upload form (Admin login required!)" className="card">
+        <Card title="Upload form (login required!)" className="card">
             <Form onSubmit={handleLogin} >
 
                 <Form.Item label="File" extra="Please upload your file">

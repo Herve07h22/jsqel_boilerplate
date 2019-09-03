@@ -1,7 +1,7 @@
 import React from 'react'
 import {useJsqel} from '../api/jsqel'
-import { useStore } from '../store'
-import {Input, Card, Spin, Form, Button, Icon} from 'antd'
+import { useStore } from '../store/store'
+import {Input, Card, Spin, Form, Button, Icon, message} from 'antd'
 
 const UserLoginForm = ( {form} ) => {
     const {dispatch, state} = useStore()
@@ -23,6 +23,20 @@ const UserLoginForm = ( {form} ) => {
     }
 
     const { getFieldDecorator } = form
+
+    if (error) {
+      message.error(error)
+      clear()
+    }
+
+    if (state.username) { 
+      return (
+        <Card title={'logged as '+ state.username} className="card">
+          <Button onClick={handleLogout} >Log out</Button>
+        </Card>
+          
+      )
+    }
     
     return (
       <Card title="Login form" className="card">
@@ -48,14 +62,13 @@ const UserLoginForm = ( {form} ) => {
                 />,
               )}
             </Form.Item>
-            <Button type="primary" htmlType="submit" >
+            <Button type="primary" loading={loading} htmlType="submit" >
                 Log in
             </Button>
   
         </Form>
-        { error && <p>Error : {error.message}</p> }
-        { loading ? <Spin /> : results && results.token && <Button onClick={handleLogout} >Log out</Button>  }
-  
+        <p>To log in as admin : Admin/pwdpwd</p>
+        
       </Card>
     )
   

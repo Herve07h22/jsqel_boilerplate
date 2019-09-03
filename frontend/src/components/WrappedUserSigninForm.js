@@ -1,15 +1,19 @@
 import React from 'react'
 import {useJsqel} from '../api/jsqel'
-import {Input, Card, Spin, Form, Button, Icon, Select} from 'antd'
+import {Input, Card, Form, Button, Icon, message} from 'antd'
 
 const UserSigninForm = ( {form} ) => {
-    const [{results, error, loading}, refresh] = useJsqel('auth/signin', { sendItNow:false, username : '', password:''})
+    const [{ error, loading}, refresh, clear] = useJsqel('auth/signin', { sendItNow:false, username : '', password:''})
     const handleSubmit = e => {
       e.preventDefault()
       form.validateFields( (err, values) => err ? console.log('Error during field validation') : refresh(values) )
     }
     const { getFieldDecorator } = form
-    const { Option } = Select;
+
+    if (error) {
+      message.error(error)
+      clear()
+    }
     
     return (
       <Card title="Signin form" className="card">
@@ -35,28 +39,12 @@ const UserSigninForm = ( {form} ) => {
                 />,
               )}
             </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('role', {
-                rules: [{ required: true, message: 'Please input your Password!' }, {min:4, message:'At least 4 chars'}],
-              })(
-                <Select
-                  showSearch
-                  placeholder="Select a role"
-                  optionFilterProp="children"
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 }
-                >
-                  <Option value="Admin">Admin</Option>
-                  <Option value="Member">Member</Option>
-                </Select>,
-              )}
-            </Form.Item>
-            <Button type="primary" htmlType="submit" >
+            
+            <Button type="primary" loading={loading} htmlType="submit" >
                 Sign in
             </Button>
   
         </Form>
-        { error && <p>Error : {error.message}</p> }
-        { loading ? <Spin /> : results.map( row => <p>row.message</p>)  }
   
       </Card>
     )

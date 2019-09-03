@@ -1,6 +1,6 @@
 import React from 'react'
 import {useJsqel, setToken} from './api/jsqel'
-import { withStore, useStore } from './store'
+import { withStore, useStore } from './store/store'
 import {Input, Card, Layout, Spin, Button, Table, Popconfirm, Row, Col} from 'antd'
 import './App.css'
 
@@ -30,7 +30,7 @@ const PrivateHello = () => {
   return (
     <Card title="Private Hello API" className="card">
       <Search placeholder='Your filter here. Ex : H%' onSearch={filter => refresh({filter})} enterButton />
-      { error && <p>Error : {error.message}</p> }
+      { error && <p>Error : {error}</p> }
       { loading ? <Spin /> : results.map( row => <p key={row.id} >{row.message}</p>)  }
       { state && state.username ? <p>{state.username} is logged : the query can be run</p> : <p>This query cannot be run</p>}
     </Card>
@@ -63,10 +63,11 @@ const Hello = () => {
     },
   ]
 
+
   return (
     <Card title="List of users" className="card" actions={[<Button onClick={e => refresh()} >Refresh</Button>]}  >
-      { users.error && <p>Error : {users.error.message}</p> }
-      { deletedUser.error && <p>Error : {deletedUser.error.message}</p> }
+      { users.error && <p>Error : {users.error}</p> }
+      { deletedUser.error && <p>Error : {deletedUser.error}</p> }
       <Table loading={users.loading || deletedUser.loading} dataSource={users.results} columns={columns} /> 
     </Card>
   )

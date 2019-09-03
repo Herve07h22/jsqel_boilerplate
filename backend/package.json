@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "jsqel": "^1.0.5"
+    "jsqel": "file:../../jsqel",
+    "uuid": "^3.3.3"
   }
 }

@@ -1,8 +1,9 @@
 // The major difference between require and import, is that require will automatically scan node_modules to find modules, but import, which comes from ES6, won't.
 // const jsqel = require('jsquel/backend')
 const jsqel = require('jsqel')
+const uuidv4 = require('uuid/v4')
 
-const dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URI : 'postgresql://postgres:docker@localhost:5432/postgres'
+const dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URI : 'sqlite://jsqel.db'
 
 const app = jsqel({  dbUri ,
                     secret  : 'anysecretkeyyouwant',
@@ -50,6 +51,9 @@ const migrationBatch = async () => {
     await app.migrateAndRegister("auth", auth)
     await app.migrateAndRegister("admin", ra)
     await app.migrateAndRegister("direct", upload)
+
+    // Add an admin user
+    await app.jsqeldb.executeQuery("INSERT INTO users (id, username, password, role_id) VALUES ( ${id}, ${username}, ${password}, 2) ON CONFLICT DO NOTHING;", {id:uuidv4(), username:"Admin", password:app.encrypt("pwdpwd")} )
 
     // Migrate user-defined modules
     await app.migrate('sql/hello_schema.sql')

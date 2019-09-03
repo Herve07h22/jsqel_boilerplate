@@ -28,9 +28,16 @@ const jsqelReducer = (state, action) => {
       case 'FETCH_SUCCESS':
         return { ...state, loading: false, error: null, results: action.payload, };
       case 'FETCH_FAILURE':
-        console.log("Error payload : ", action.payload.response)
+        console.log("Error message : ", action.payload.message)
+        console.log("Error response : ", action.payload.response)
         if (action.payload.response && action.payload.response.status===401) removeToken()
-        return { ...state, loading: false, error: action.payload };
+        // Build the most usefull message
+        const errorMessage = payload => {
+          if (payload.response && payload.response.data && payload.response.data.detail) return payload.response.data.detail
+          if (payload.response && payload.response.data &&  typeof payload.response.data === 'string' ) return payload.response.data
+          return payload.message
+        }
+        return { ...state, loading: false, error: errorMessage(action.payload) };
       case 'CLEAR' :
           return { ...state, loading: false, error: null, results: null };
       default:
