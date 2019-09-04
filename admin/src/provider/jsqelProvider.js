@@ -31,9 +31,8 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 jsqlParams = {
                     asc_or_desc : params.sort.order,
                     filter_sort : params.sort.field,
-                    table       : resource,
-                    filter_field : params.filter && Object.keys(params.filter).length ? Object.keys(params.filter)[0] : null,       // Only 1 filter supported
-                    filter      : params.filter && Object.keys(params.filter).length ? params.filter[Object.keys(params.filter)[0]] : null,
+                    table       : resource,   
+                    filter      : params.filter && Object.keys(params.filter).length ? params.filter : null,
                     perPage     : params.pagination.perPage,
                     page        : (params.pagination.page-1)*params.pagination.perPage,
                 }
@@ -63,10 +62,9 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                     asc_or_desc : params.sort.order,
                     filter_sort : params.sort.field,
                     table       : resource,
-                    filter_field : params.filter && Object.keys(params.filter).length ? Object.keys(params.filter)[0] : null,
-                    filter      : params.filter && Object.keys(params.filter).length ? params.filter[Object.keys(params.filter)[0]] : null,
+                    filter      : params.filter && Object.keys(params.filter).length ? params.filter : null,
                     perPage     : params.pagination.perPage,
-                    page        : params.pagination.page,
+                    page        : (params.pagination.page-1)*params.pagination.perPage,
                     target      : params.target,
                     target_id   : params.id,
                 }
@@ -143,8 +141,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                     asc_or_desc : params.sort.order,
                     filter_sort : params.sort.field,
                     table       : resource,
-                    filter_field : params.filter && Object.keys(params.filter).length ? Object.keys(params.filter)[0] : null,       // Only 1 filter supported
-                    filter      : params.filter && Object.keys(params.filter).length ? params.filter[Object.keys(params.filter)[0]] : null,
+                    filter      : params.filter && Object.keys(params.filter).length ? params.filter : null,
                 };
                 options.body = JSON.stringify( jsqlParams );
                 url = params.filter && Object.keys(params.filter).length ? `${apiUrl}/count_list_with_filter` : `${apiUrl}/count_list`;

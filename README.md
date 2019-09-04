@@ -8,14 +8,35 @@ git clone https://github.com/Herve07h22/jsqel_boilerplate.git my_project
 ```
 
 You have a ready-to-use fullstack application, including :
-- A Postgresql database,
 - In the `backend` directory : an API server made with jsqel
 - In the `frontend` directory : a simple React Application, designed with [Ant Design](https://ant.design)
 - In the `admin` directory : another React Application designed with [react-admin](https://marmelab.com/react-admin/), which lets you do CRUD operations on the data.
 
 ## Run the application
 
-### Easiest way
+### Just to see what it looks like
+
+For testing purpose, the boilerplate can connect to a local SQLite3 database instead of the recommended Postgresql engine.
+
+After cloning the repo, let's import required node modules, start the backend and the 2 front-ends :
+```
+cd my_project
+cd backend && yarn && node index.js
+cd frontend && yarn && yarn start
+cd admin && yarn && yarn start
+```
+You should get something like this :
+
+**Front-end demo app**
+
+![Front-end screenshot](doc/frontend-screenshot.png?raw=true "Front-end")
+
+**Admin demo app**
+
+![Admin screenshot](doc/admin-screenshot.png?raw=true "Admin")
+
+
+### Install with Docker
 The easiest way is to run it with Docker.
 ```
 docker-compose up -- build
@@ -52,7 +73,8 @@ cd admin
 yarn
 yarn start
 ```
-## React hooks to speed up your dev
+
+# React hooks to speed up your dev
 
 If you like at the `WrappedUserLoginForm.js` file, you find theses 2 JS lines :
 

@@ -30,7 +30,9 @@ const jsqelReducer = (state, action) => {
       case 'FETCH_FAILURE':
         console.log("Error message : ", action.payload.message)
         console.log("Error response : ", action.payload.response)
-        if (action.payload.response && action.payload.response.status===401) removeToken()
+        
+        // if (action.payload.response && action.payload.response.status===401) removeToken()
+        
         // Build the most usefull message
         const errorMessage = payload => {
           if (payload.response && payload.response.data && payload.response.data.detail) return payload.response.data.detail
