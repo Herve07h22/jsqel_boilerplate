@@ -84,6 +84,6 @@ const useJsqel = (query, props = {}, initialResults=[]) => {
     return [state, refresh, clear]
 }
 
-export {useJsqel, setToken}
+export {useJsqel, setToken, removeToken}
 
 

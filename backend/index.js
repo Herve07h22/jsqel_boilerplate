@@ -7,7 +7,7 @@ const dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URI :
 
 const app = jsqel({  dbUri ,
                     secret  : 'anysecretkeyyouwant',
-                    debug  : process.env.NODE_ENV !== 'production',
+                    debug  : process.env.NODE_ENV !== 'production' ,
                     apiUrlBase : process.env.NODE_ENV === 'production' ? '/api' : '',
                 })
 
@@ -41,8 +41,16 @@ const private_hello = {
     afterQuery  : (query, params, results) => { console.log("Got the result !"); return results; }, 
 }
 
+const whoami = {
+    name : 'whoami',
+    sql : "SELECT * FROM Users where id=${user_id}", // Auto inject user_id and role
+    restricted : ['Member', 'Admin'], // private query, request need authentication bearer
+    params : {
+        user_id : value => ({success: true, value }) ,  // Injected parameter for an authenticated query (which does not contains 'Public' in restricted)
+    },
+}
 // Register a list of endpoints
-app.register("test", [hello, private_hello])
+app.register("test", [hello, private_hello, whoami])
 
 // SQL Queries executed each time the server is restarted
 const migrationBatch = async () => {
