@@ -16,7 +16,7 @@ const headerStyleUser = {
 
 const HeaderContent = () => {
 
-    useJsqel('test/whoami', { sendItNow:true, callback: ({results}) => dispatch({type:'UPDATE', payload:results[0]})})
+    useJsqel('auth/islogged', { sendItNow:true, callback: ({results}) => dispatch({type:'UPDATE', payload:results[0]})})
     const {state , dispatch} = useStore()
 
     const handleLogout = e => dispatch({type:'LOGOUT'}) // Clear token

@@ -5,8 +5,8 @@ import { Layout } from 'antd'
 import UserLoginForm from '../login/UserLoginForm'
 import UserSigninForm from '../login/UserSigninForm'
 import Upload from '../upload/Upload'
-import PrivateHello from '../hello/PrivateHello'
-import Hello from '../hello/Hello'
+import UserList from '../login/UserList'
+import Opportunities from '../opportunities/Opportunities'
 import SideNavMenu from './SideNavMenu'
 import HeaderContent from './HeaderContent'
 
@@ -28,9 +28,9 @@ const PrivateApp = () => {
         <Content style={{ padding:'1rem', }} >
           <Switch>
             <Route exact path="/signin"  component={UserSigninForm} />
-            <Route exact path="/users"  component={Hello} />
-            <Route exact path="/search"  component={PrivateHello} />
+            <Route exact path="/users"  component={UserList} />
             <Route exact path="/upload"  component={Upload} />
+            <Route exact path="/opportunities"  component={Opportunities} />
             <Redirect exact from="/" to="/users" />
             <Route component={UserLoginForm} />
           </Switch>
