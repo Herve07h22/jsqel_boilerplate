@@ -9,12 +9,12 @@ const Opportunities = () => <Crud api="crm" ressource="opportunities" title="Opp
                                     name:"probability", 
                                     label:"Probabilité", 
                                     position : "primary", 
-                                    type : choice([
+                                    type :[
                                         {id:"sure", value:"Certain"}, 
                                         {id:"good", value:"Certain"},
                                         {id:"hard", value:"Incertain"},
                                         {id:"testing", value:"Evaluation"},
-                                    ]) 
+                                    ] 
                                 },
                             ]}
                             />

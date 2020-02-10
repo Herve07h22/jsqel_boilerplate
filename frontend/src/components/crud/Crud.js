@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useJsqel} from '../../api/jsqel'
-import {Table, Card, Popconfirm, Button } from 'antd'
+import {Table, Card, Popconfirm, Button, message } from 'antd'
 import CreateEdit from './CreateEdit'
 
 /* ******************************************************
@@ -20,7 +20,7 @@ import CreateEdit from './CreateEdit'
 *   {   name:"<name of the field that shoul match the database name>" , 
 *       label:"<Explicit name for user>" ,
 *       position : "primary" or "secondary". If primary, appears a a column in the list. Else, appears in dropdown
-*       type : "integer", "string", choice([{id:1, "choice1"}, {id:2, value:"choice2"}]), select({api:"xxxx", field:"<name of the field>"})
+*       type : "integer", "string", [{id:1, "choice1"}, {id:2, value:"choice2"}], select({api:"xxxx", field:"<name of the field>"})
 *       validation : array of objects. { rule:value=>boolean (true if OK), message:"Message if validation fails" }
 *    }
 *
@@ -29,17 +29,18 @@ import CreateEdit from './CreateEdit'
 
 const Crud = ({api, ressource, itemByPage=10, uploadCSV="", exportCSV="", filter={}, title="Title of this form", fields=[]}) => {
     const [listItem, refreshListItem]   = useJsqel(`${api}/list`, { sendItNow:true, table:ressource, ...filter})
-    const userFeedback = message => ({error}) => {
+    const userFeedback = feedbackMessage => ({error}) => {
         if (error) {
-            message.error(error)
+            console.log(error.message)
+            message.error(error.message)
         } else {
-            message.success(error)
+            message.success(feedbackMessage)
             refreshListItem()
         }
     }
-    const [deletedItem, deleteItem ]    = useJsqel(`${api}/delete`, { sendItNow:false, table:ressource, callback: userFeedback })
-    const [createdItem, createItem ]    = useJsqel(`${api}/create`, { sendItNow:false, table:ressource, callback: userFeedback })
-    const [updatedItem, updateItem ]    = useJsqel(`${api}/update`, { sendItNow:false, table:ressource, callback: userFeedback })
+    const [deletedItem, deleteItem ]    = useJsqel(`${api}/delete`, { sendItNow:false, table:ressource, callback: userFeedback("Suppression réussie") })
+    const [createdItem, createItem ]    = useJsqel(`${api}/create`, { sendItNow:false, table:ressource, callback: userFeedback("Création réussie") })
+    const [updatedItem, updateItem ]    = useJsqel(`${api}/update`, { sendItNow:false, table:ressource, callback: userFeedback("Mise à jour réussie") })
     const saveItem                      = item => item.id ? updateItem(item) : createItem(item)
 
     const [currentItem, setCurrentItem ]= useState(null)

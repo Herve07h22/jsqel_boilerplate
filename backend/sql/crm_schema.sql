@@ -15,7 +15,7 @@ END$$;
 DO $$
 BEGIN
     DROP TABLE IF EXISTS opportunities CASCADE;
-    DROP TABLE IF EXISTS leads ;
+    DROP TABLE IF EXISTS leads CASCADE;
     DROP TABLE IF EXISTS opportunities_comments ;
 END$$;
 
