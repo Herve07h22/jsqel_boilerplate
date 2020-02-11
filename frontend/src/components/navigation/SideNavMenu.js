@@ -16,10 +16,16 @@ const SideNavMenu = ({location}) => (
                 <span className="nav-text">New user</span>
             </Link>
         </Menu.Item>
-        <Menu.Item key="/search"  >
-            <Link to="/search" >
+        <Menu.Item key="/opportunities"  >
+            <Link to="/opportunities" >
                 <Icon type="shop" />
-                <span className="nav-text">Search</span>
+                <span className="nav-text">Opportunities</span>
+            </Link>
+        </Menu.Item>
+        <Menu.Item key="/leads"  >
+            <Link to="/leads" >
+                <Icon type="shop" />
+                <span className="nav-text">Leads</span>
             </Link>
         </Menu.Item>
         <Menu.Item key="/upload"  >

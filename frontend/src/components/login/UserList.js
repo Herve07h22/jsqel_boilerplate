@@ -2,8 +2,8 @@ import React from 'react'
 import {useJsqel} from '../../api/jsqel'
 import {Table, Card, Popconfirm, Button } from 'antd'
 
-const Hello = () => {
-    const [users, refresh]    = useJsqel('test/hello', { sendItNow:true})
+const UserList = () => {
+    const [users, refresh]    = useJsqel('auth/list_users', { sendItNow:true})
     const [deletedUser, deleteUser] = useJsqel('auth/delete_user', { sendItNow:false, callback: () => refresh() })
   
     const columns = [
@@ -38,5 +38,5 @@ const Hello = () => {
     )
   }
 
-  export default Hello
+  export default UserList
 
