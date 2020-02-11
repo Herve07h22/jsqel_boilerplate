@@ -22,6 +22,12 @@ const SideNavMenu = ({location}) => (
                 <span className="nav-text">Opportunities</span>
             </Link>
         </Menu.Item>
+        <Menu.Item key="/leads"  >
+            <Link to="/leads" >
+                <Icon type="shop" />
+                <span className="nav-text">Leads</span>
+            </Link>
+        </Menu.Item>
         <Menu.Item key="/upload"  >
             <Link to="/upload" >
                 <Icon type="check-circle" />

@@ -611,7 +611,7 @@ jsprim@^1.2.2:
 
 "jsqel@git+https://github.com/Herve07h22/jsqel.git":
   version "1.0.14"
-  resolved "git+https://github.com/Herve07h22/jsqel.git#a9dc80c6e7b1d9e99811fb7921a1e0f864a2b6a4"
+  resolved "git+https://github.com/Herve07h22/jsqel.git#9e9de743914d78a2c60cad5765a9e2213f27ddd8"
   dependencies:
     body-parser "^1.19.0"
     cors "^2.8.5"

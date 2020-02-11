@@ -6,7 +6,8 @@ import UserLoginForm from '../login/UserLoginForm'
 import UserSigninForm from '../login/UserSigninForm'
 import Upload from '../upload/Upload'
 import UserList from '../login/UserList'
-import Opportunities from '../opportunities/Opportunities'
+import Opportunities from '../crm/Opportunities'
+import Leads from '../crm/Leads'
 import SideNavMenu from './SideNavMenu'
 import HeaderContent from './HeaderContent'
 
@@ -31,6 +32,7 @@ const PrivateApp = () => {
             <Route exact path="/users"  component={UserList} />
             <Route exact path="/upload"  component={Upload} />
             <Route exact path="/opportunities"  component={Opportunities} />
+            <Route exact path="/leads"  component={Leads} />
             <Redirect exact from="/" to="/users" />
             <Route component={UserLoginForm} />
           </Switch>

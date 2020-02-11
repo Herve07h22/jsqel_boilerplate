@@ -19,7 +19,7 @@ console.log("Database URI received from env is :", process.env.DATABASE_URI)
 const auth = require('jsqel/modules/auth')
 const ra = require('jsqel/modules/admin')
 const upload = require('jsqel/modules/upload')
-const crm = require('./endpoints/crm')
+const generic_crud = require('./endpoints/generic_crud')
 
 // SQL Queries executed each time the server is restarted
 const migrationBatch = async () => {
@@ -40,7 +40,7 @@ const migrationBatch = async () => {
     await app.migrate('sql/crm_seeds.sql')
 
     // Migrate user-defined modules
-    console.log(await app.migrateAndRegister("crm", crm))
+    console.log(await app.migrateAndRegister("crm", generic_crud))
 }
 
 // Launch migrations, then launch server 

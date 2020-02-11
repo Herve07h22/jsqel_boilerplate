@@ -20,7 +20,7 @@ import CreateEdit from './CreateEdit'
 *   {   name:"<name of the field that shoul match the database name>" , 
 *       label:"<Explicit name for user>" ,
 *       position : "primary" or "secondary". If primary, appears a a column in the list. Else, appears in dropdown
-*       type : "integer", "string", [{id:1, "choice1"}, {id:2, value:"choice2"}], select({api:"xxxx", field:"<name of the field>"})
+*       type : "integer", "string", [{id:1, "choice1"}, {id:2, value:"choice2"}], {ressource:"xxxx", field:"<name of the field>"}
 *       validation : array of objects. { rule:value=>boolean (true if OK), message:"Message if validation fails" }
 *    }
 *
@@ -35,17 +35,24 @@ const Crud = ({api, ressource, itemByPage=10, uploadCSV="", exportCSV="", filter
             message.error(error.message)
         } else {
             message.success(feedbackMessage)
+            setCurrentItem(null)
             refreshListItem()
         }
     }
     const [deletedItem, deleteItem ]    = useJsqel(`${api}/delete`, { sendItNow:false, table:ressource, callback: userFeedback("Suppression réussie") })
     const [createdItem, createItem ]    = useJsqel(`${api}/create`, { sendItNow:false, table:ressource, callback: userFeedback("Création réussie") })
     const [updatedItem, updateItem ]    = useJsqel(`${api}/update`, { sendItNow:false, table:ressource, callback: userFeedback("Mise à jour réussie") })
-    const saveItem                      = item => item.id ? updateItem(item) : createItem(item)
+    const saveItem                      = item => {
+        if (item) {
+            item.id ? updateItem({data:item}) : createItem({data:item})
+        } else {
+            setCurrentItem(null)
+        }
+    }
 
     const [currentItem, setCurrentItem ]= useState(null)
 
-    const columnsList = fields.filter(field => field.position==="primary").map( field => ({title:field.label, dataIndex:field.name}))
+    const columnsList = fields.filter(field => field.position==="primary").map( field => ({title:field.label, dataIndex:field.name, render:field.type==="date" ? (text, record) => new Date(record[field.name]).toLocaleDateString() : null }))
     const columnsListAndActions = [ ...columnsList, 
                                     {
                                         title:'Edit', 
@@ -63,10 +70,17 @@ const Crud = ({api, ressource, itemByPage=10, uploadCSV="", exportCSV="", filter
     
     const loading = listItem.loading || deletedItem.loading
 
-    if (currentItem !== null) return <CreateEdit onSave={saveItem} fields={fields} />
+    if (currentItem !== null) return (
+        <Card title={title + (currentItem.id ? ` : edit #${currentItem.id}` : ' : create') } >
+            <CreateEdit onSave={saveItem} fields={fields} currentItem={currentItem} api={api} loading={createdItem.loading || updatedItem.loading} />
+        </Card>
+    )
 
     return (
-        <Card title={title} actions={[<Button onClick={e => setCurrentItem({}) }>New item</Button>]}  >
+        <Card   title={title}  
+                extra={<Button type="primary" onClick={e => setCurrentItem({}) }>New item</Button>}  
+                actions={[exportCSV && <Button>{exportCSV}</Button>, uploadCSV && <Button>{uploadCSV}</Button>]}
+        >
             { listItem.error && <p>Error : {listItem.error}</p> }
             { deletedItem.error && <p>Error : {deletedItem.error}</p> }
             <Table loading={loading} dataSource={listItem.results} columns={columnsListAndActions} rowKey={r=>r.id}/> 

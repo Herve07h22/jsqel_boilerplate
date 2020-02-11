@@ -16,7 +16,7 @@ const App = () => (
             <Route exact path="/login"  component={UserLoginForm} />
 
             {/* Routes with authentication */  }
-            <PrivateRoute exact path={['/users', '/opportunities', '/upload','/signin', '/' ]} component={PrivateApp} />
+            <PrivateRoute exact path={['/users', '/opportunities', '/leads', '/upload','/signin', '/' ]} component={PrivateApp} />
 
             {/* Fallback route */  }
             <Route component={UserLoginForm} />
