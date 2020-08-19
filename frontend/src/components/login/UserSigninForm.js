@@ -1,59 +1,62 @@
-import React from 'react'
-import {useJsqel} from '../../api/jsqel'
-import {Input, Card, Form, Button, Icon, message} from 'antd'
-
-const UserSigninForm = ( {form} ) => {
-    const [{ error, loading}, refresh, clear] = useJsqel('auth/signin', { sendItNow:false, username : '', password:''})
-    const handleSubmit = e => {
-      e.preventDefault()
-      form.validateFields( (err, values) => err ? console.log('Error during field validation') : refresh(values) )
-    }
-    const { getFieldDecorator } = form
-
+import React from "react";
+import { useJsqel } from "../../api/jsqel";
+import { Input, Card, Form, Button, message } from "antd";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+const centeredContainer = {
+  maxWidth: "500px",
+  minHeight: "100vh",
+  display: "flex",
+  margin: "auto",
+};
+const UserSigninForm = ({ history }) => {
+  const afterSignin = ({ results, error }) => {
     if (error) {
-      message.error(error)
-      clear()
+      console.log("error in UserSigninForm:", error);
+      message.error(error);
+      clear();
+    } else {
+      message.success("Got it! Please log in now.");
+      history.push("/login");
     }
-    
-    return (
-      <Card title="Signin form" className="card">
-        <Form onSubmit={handleSubmit} >
-            <Form.Item>
-              {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }, {min:4, message:'At least 4 chars'}],
-              })(
-                <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Username"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }, {min:4, message:'At least 4 chars'}],
-              })(
-                <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type="password"
-                  placeholder="Password"
-                />,
-              )}
-            </Form.Item>
-            
-            <Button type="primary" loading={loading} htmlType="submit" >
-                Sign in
-            </Button>
-  
+  };
+  const [{ loading }, refresh, clear] = useJsqel("auth/signin", {
+    sendItNow: false,
+    username: "",
+    password: "",
+    callback: afterSignin,
+  });
+  return (
+    <div style={centeredContainer}>
+      <Card style={{ margin: "auto" }} loading={loading} title="Join the CRM">
+        <Form onFinish={refresh}>
+          <Form.Item
+            name="username"
+            rules={[
+              { required: true, message: "Please input your username!" },
+              { min: 4, message: "At least 4 chars" },
+            ]}
+          >
+            <Input prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />} placeholder="Login" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              { required: true, message: "Please input your Password!" },
+              { min: 4, message: "At least 4 chars" },
+            ]}
+          >
+            <Input
+              prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+              type="password"
+              placeholder="Mot de passe"
+            />
+          </Form.Item>
+          <Button type="primary" loading={loading} htmlType="submit">
+            Sign in
+          </Button>
         </Form>
-  
       </Card>
-    )
-  
-  }
-  
-const WrappedUserSigninForm = Form.create({ name: 'signin' })(UserSigninForm)
-
-export default WrappedUserSigninForm
-
-
-  
+    </div>
+  );
+};
+export default UserSigninForm;
