@@ -11,7 +11,7 @@ const dbUri =
 const app = jsqel({
   dbUri,
   secret: "anysecretkeyyouwant",
-  debug: process.env.NODE_ENV !== "production",
+  debug: true,
   apiUrlBase: process.env.NODE_ENV === "production" ? "/api" : "",
 });
 
@@ -27,19 +27,23 @@ const generic_crud = require("./endpoints/generic_crud");
 const roles = require("./endpoints/roles");
 
 // SQL Queries executed each time the server is restarted
-const migrationBatch = async () => {
-  // Migrate & register built-in modules
-  await app.migrateAndRegister("auth", auth);
-  await app.migrateAndRegister("admin", ra);
-  await app.migrateAndRegister("direct", upload);
+const jsqelBatch = async () => {
+  console.log("Migrate & register built-in modules");
+  console.log(await app.migrateAndRegister("auth", auth));
 
-  // Add an admin user
+  console.log("Migrate & register admin modules");
+  console.log(await app.migrateAndRegister("admin", ra));
+
+  console.log("Migrate & register direct modules");
+  console.log(await app.migrateAndRegister("direct", upload));
+
+  console.log("Add an admin user");
   await app.jsqeldb.executeQuery(
     "INSERT INTO users (id, username, password, role_id) VALUES ( ${id}, ${username}, ${password}, 2) ON CONFLICT DO NOTHING;",
     { id: uuidv4(), username: "Admin", password: app.encrypt("pwdpwd") }
   );
 
-  // Add member user
+  console.log("Add a member user");
   await app.jsqeldb.executeQuery(
     "INSERT INTO users (id, username, password, role_id) VALUES ( ${id}, ${username}, ${password}, 1) ON CONFLICT DO NOTHING;",
     { id: uuidv4(), username: "Member", password: app.encrypt("pwdpwd") }
@@ -55,6 +59,6 @@ const migrationBatch = async () => {
 };
 
 // Launch migrations, then launch server
-migrationBatch()
+jsqelBatch()
   .then(() => app.run())
   .catch((e) => console.log("Something went wrong during migration : ", e));

@@ -1,5 +1,5 @@
 # pull official base image
-FROM node
+FROM node:12
 
 # set work directory
 WORKDIR /usr/src/backend
@@ -13,6 +13,5 @@ RUN yarn
 COPY . .
 
 EXPOSE 5000
-CMD [ "node", "index.js" ]
 
 
