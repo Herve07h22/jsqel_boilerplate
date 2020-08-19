@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   jsqel_nodejs:
@@ -6,7 +6,7 @@ services:
     command: node index.js
     volumes:
       - uploads:/uploads
-    # Expose ports without publishing them to the host machine - they’ll only be accessible to linked services. 
+    # Expose ports without publishing them to the host machine - they’ll only be accessible to linked services.
     expose:
       - 5000
     # If you want tu run only the backend (+db), you have to publish the external port :
@@ -29,7 +29,7 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-  
+
   jsqel_nginx:
     build: .
     volumes:
@@ -42,4 +42,3 @@ services:
 volumes:
   postgres_data:
   uploads:
-  

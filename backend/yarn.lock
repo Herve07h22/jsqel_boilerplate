@@ -609,9 +609,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-"jsqel@git+https://github.com/Herve07h22/jsqel.git":
-  version "1.0.14"
-  resolved "git+https://github.com/Herve07h22/jsqel.git#9e9de743914d78a2c60cad5765a9e2213f27ddd8"
+jsqel@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/jsqel/-/jsqel-1.0.16.tgz#2ffd1713b43dc2fe3c58ace5c25c47f52e284bc0"
+  integrity sha512-MQdjQWmD+Y4CNk7m4HY5hrKLQlMAHiJnuiBKkDMxyQZFNMiM2/kQV9VnDnyVaETUWfWIzMzLsk7VrLEvGYQgwg==
   dependencies:
     body-parser "^1.19.0"
     cors "^2.8.5"
