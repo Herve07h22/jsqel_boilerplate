@@ -12,7 +12,7 @@ import { message } from "antd";
 // refresh({ sendItNow:true, filter : filter }) --> send the query if sendItNow was initially false
 // clear : set results to null
 
-const api_url = process.env.NODE_ENV === "production" ? "https://localhost/api/" : "http://localhost:5000/";
+const api_url = process.env.NODE_ENV === "production" ? "http://localhost/api/" : "http://localhost:5000/";
 
 const setToken = (token) => {
   window.localStorage.setItem("jsqel_token", token);
