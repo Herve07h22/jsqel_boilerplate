@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "jsqel": "git+https://github.com/Herve07h22/jsqel.git",
+    "jsqel": "^1.0.16",
     "uuid": "^3.3.3"
   }
 }
