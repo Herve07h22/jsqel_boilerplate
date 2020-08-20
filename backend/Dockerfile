@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:12
+FROM node
 
 # set work directory
 WORKDIR /usr/src/backend

@@ -3,7 +3,7 @@ import { Crud } from "../crud/Crud";
 
 const Opportunities = () => (
   <Crud
-    api="crm"
+    api="generic_crud" // see backend/endpoints/generic_crud.js
     ressource="opportunities"
     title="Opportunités d'affaires"
     fields={[

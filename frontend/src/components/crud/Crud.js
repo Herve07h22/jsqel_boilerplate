@@ -29,8 +29,8 @@ const Crud = ({ api, ressource, exportCSV = "", filter = {}, title = "Title of t
   const [listItem, refreshListItem] = useJsqel(`${api}/list`, { sendItNow: true, table: ressource, ...filter });
   const userFeedback = (feedbackMessage) => ({ error }) => {
     if (error) {
-      console.log(error.message);
-      message.error(error.message);
+      console.log(error);
+      message.error(error);
     } else {
       message.success(feedbackMessage);
       setCurrentItem(null);
@@ -67,7 +67,9 @@ const Crud = ({ api, ressource, exportCSV = "", filter = {}, title = "Title of t
     .map((field) => ({
       title: field.label,
       dataIndex: field.name,
-      render: field.type === "date" ? (text, record) => new Date(record[field.name]).toLocaleDateString() : null,
+      render:
+        field.render ||
+        (field.type === "date" ? (text, record) => new Date(record[field.name]).toLocaleDateString() : null),
     }));
   const columnsListAndActions = [
     ...columnsList,

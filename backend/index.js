@@ -1,7 +1,7 @@
 // The major difference between require and import, is that require will automatically scan node_modules to find modules, but import, which comes from ES6, won't.
 // const jsqel = require('jsquel/backend')
 const jsqel = require("jsqel");
-const uuidv4 = require("uuid/v4");
+const { v4: uuidv4 } = require("uuid");
 
 const dbUri =
   process.env.NODE_ENV === "production"
@@ -25,6 +25,7 @@ const ra = require("jsqel/modules/admin");
 const upload = require("jsqel/modules/upload");
 const generic_crud = require("./endpoints/generic_crud");
 const roles = require("./endpoints/roles");
+const leads = require("./endpoints/leads");
 
 // SQL Queries executed each time the server is restarted
 const jsqelBatch = async () => {
@@ -54,8 +55,9 @@ const jsqelBatch = async () => {
   await app.migrate("sql/crm_seeds.sql");
 
   // Migrate user-defined modules
-  console.log(await app.migrateAndRegister("crm", generic_crud));
+  console.log(await app.migrateAndRegister("generic_crud", generic_crud));
   console.log(await app.migrateAndRegister("roles", roles));
+  console.log(await app.migrateAndRegister("leads", leads));
 };
 
 // Launch migrations, then launch server

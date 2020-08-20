@@ -3,7 +3,7 @@ import { Crud } from "../crud/Crud";
 
 const Leads = () => (
   <Crud
-    api="crm"
+    api="leads" // see backend/endpoints/leads.js
     ressource="leads"
     title="Prospects"
     exportCSV="Export data in a CSV file"
@@ -15,7 +15,8 @@ const Leads = () => (
         name: "opportunity_id",
         label: "Opportunity",
         position: "primary",
-        type: { key: "opportunity_id", ressource: "opportunities", field: "label" },
+        type: { api: "generic_crud", key: "opportunity_id", ressource: "opportunities", field: "label" },
+        render: (value, record) => record.opportunity.label,
       },
     ]}
   />

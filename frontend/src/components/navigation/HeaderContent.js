@@ -21,7 +21,7 @@ const headerStyleLogoutButton = {
 const HeaderContent = () => {
   useJsqel("auth/islogged", {
     sendItNow: true,
-    callback: ({ results }) => dispatch({ type: "UPDATE", payload: results[0] }),
+    callback: ({ results }) => results && dispatch({ type: "UPDATE", payload: results[0] }),
   });
   const { state, dispatch } = useStore();
 

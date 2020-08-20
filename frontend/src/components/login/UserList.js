@@ -3,9 +3,11 @@ import { useJsqel } from "../../api/jsqel";
 import { Table, Card, Popconfirm, Button } from "antd";
 
 const UserList = () => {
-  // Just to have a mode detailed examle of how to deal with a Jsqel endpoint
   const [users, refresh] = useJsqel("auth/list_users", { sendItNow: true });
+
+  // Just to have a mode detailed example of how to deal with a Jsqel endpoint
   const [roles] = useJsqel("roles/list", { sendItNow: true, cached: true });
+
   const [deletedUser, deleteUser] = useJsqel("auth/delete_user", { sendItNow: false, callback: () => refresh() });
 
   const findRoleLabelById = (roleId) => {
